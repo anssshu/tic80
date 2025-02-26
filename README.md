@@ -1,0 +1,1 @@
+This is a static site to play tic 80 games
