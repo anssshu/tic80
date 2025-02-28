@@ -1,56 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>TIC-80 tiny computer</title>
-
-    <style type="text/css">
-        #game-frame > div { font-size: 44px; font-family: monospace; font-weight: bold;}
-
-        /* You can set custom dimensions here */
-        .game { width: 100vw; height: 100vh; }
-
-        /* Uncomment to remove the frame on top of the canvas and start the game directly */
-        /* #game-frame { display: none; } */
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC-80 Cartridges</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .tab-container {
+            display: flex;
+        }
+        
+        .tab-header {
+            background-color: #f1f1f1;
+            padding: 10px;
+            width: 150px; /* Adjust width as needed */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .tablinks {
+            background-color: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .tablinks:hover {
+            background-color: #ddd;
+        }
+        
+        .tablinks.active {
+            background-color: #a7c9bc;
+        }
+        
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-left: none;
+            margin-left: 75px; /* Match the width of the tab header */
+            margin-right:75px;
+            margin-top:30px;
+            margin-bottom: 30px;
+            width: 90%; /* Adjust width as needed */
+            height:95vh; /* Full height of the viewport */
+            background-color: #faf9f9;
+        }
+        
+        .tabcontent.active {
+            display: block;
+          
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%; /* Adjust height as needed */
+            border: 10px;
+        }
     </style>
 </head>
-<body style="margin:0; padding:0;">
-
-    <div class="game" style="margin: 0; position: relative; background: #1a1c2c;">
-
-        <div id="game-frame" style="cursor: pointer; position: absolute; margin: 0 auto; opacity: 1; background: #1a1c2c; width: 100%; height: 100%;">
-            <div style="text-align: center; color: white; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
-                <p style="margin: 0;">- CLICK TO PLAY -</p>
-            </div>
-
+<body>
+    <div class="tab-container">
+        <div class="tab-header">
+            <button class="tablinks active" onclick="openTab(event, 'Game1')">The Quest</button>
+            <button class="tablinks" onclick="openTab(event, 'Game2')">The Stele</button>
+            <!-- Add more tabs as needed -->
         </div>
-
-        <canvas style="width: 100%; height: 100%; margin: 0 auto; display: block; image-rendering: pixelated;" id="canvas" oncontextmenu="event.preventDefault()" onmousedown="window.focus()"></canvas>
+        
+        <div id="Game1" class="tabcontent active">
+            
+            <iframe src="quest/index.html" frameborder="0"></iframe>
+            <center><div><h1>The Quest of Lost Horizon </h1></div></center>
+        </div>
+        
+        <div id="Game2" class="tabcontent">
+            <iframe src="stele/index.html" frameborder="0"></iframe>
+            <center><div><h1>The Stele</h1></div></center>
+        </div>
+        <!-- Add more tab content as needed -->
     </div>
 
-    <script type="text/javascript">
-        var Module = {canvas: document.getElementById('canvas'), arguments:['cart.tic']}
-
-        const gameFrame = document.getElementById('game-frame')
-        const displayStyle = window.getComputedStyle(gameFrame).display;
-
-        if (displayStyle === 'none') 
-        {
-            let scriptTag = document.createElement('script'), // create a script tag
-            firstScriptTag = document.getElementsByTagName('script')[0]; // find the first script tag in the document
-            scriptTag.src = 'tic80.js'; // set the source of the script to your script
-            firstScriptTag.parentNode.insertBefore(scriptTag, firstScriptTag); // append the script to the DOM
-        } else {
-            gameFrame.addEventListener('click', function() {
-                let scriptTag = document.createElement('script'), // create a script tag
-                firstScriptTag = document.getElementsByTagName('script')[0]; // find the first script tag in the document
-                scriptTag.src = 'tic80.js'; // set the source of the script to your script
-                firstScriptTag.parentNode.insertBefore(scriptTag, firstScriptTag); // append the script to the DOM
-                this.remove()
-            });
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).className += " active";
+            evt.currentTarget.className += " active";
         }
     </script>
 </body>
